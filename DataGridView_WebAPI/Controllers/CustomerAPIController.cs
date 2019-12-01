@@ -36,7 +36,7 @@ namespace DataGridView_WebAPI.Controllers
             MySqlConnection conn = WebApiConfig.conn();
             MySqlCommand query = conn.CreateCommand();
 
-            query.CommandText = "select id,staff_name,staff_kana from mst_staff where staff_name=@staff_name";
+            query.CommandText = "select select id,diagram_id,station_id,enter_schedule_time,out_schedule_time from tbl_diagram_details";
             query.Parameters.AddWithValue("@staff_name", result.name);
 
             var results = new List<results>();
@@ -66,12 +66,27 @@ namespace DataGridView_WebAPI.Controllers
         public DataTable GetDataForExecl()
         {
 
-            var dataTable = new DataTable();
-            var dataSet = new DataSet();
-            var dataAdapter = new MySqlDataAdapter { SelectCommand = InitSqlCommand("select id,staff_name,staff_kana from mst_staff") };
+           
+            MySqlConnection conn = WebApiConfig.conn();
+            conn.Open();
 
-            dataAdapter.Fill(dataSet);
-            dataTable = dataSet.Tables[0];
+            MySqlCommand query = conn.CreateCommand();
+            query.CommandText = "update tbl_excel_output set status=2 where status=1 and type =1";
+            int isUpdaste = query.ExecuteNonQuery();
+
+            var dataTable = new DataTable();
+
+            if (isUpdaste > 0)
+            {
+                var dataSet = new DataSet();
+                var dataAdapter = new MySqlDataAdapter { SelectCommand = InitSqlCommand("select id,diagram_id,station_id,enter_schedule_time,out_schedule_time from tbl_diagram_details where status=1 and type =1") };
+
+                dataAdapter.Fill(dataSet);
+                dataTable = dataSet.Tables[0];
+            }
+
+            conn.Close();
+
             return dataTable;
 
         }

@@ -12,7 +12,8 @@ namespace DataGridView_WebAPI
         {
             string connetionString = null;
             MySqlConnection cnn;
-            connetionString = "server=localhost;database=imprest_test;username=root;password='';";
+            //connetionString = "server=localhost;database=imprest_test;username=root;password='';";
+            connetionString = "server=localhost;database=imprest-share_chiyoda;username=root;password='';";
             cnn = new MySqlConnection(connetionString);
             
             return cnn;

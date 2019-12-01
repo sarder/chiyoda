@@ -30,7 +30,7 @@ namespace WebAPI_Windows_Client
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.PopulateDataGridView();
+           // this.PopulateDataGridView();
             //  StartupProject();
             timerCheckTime.Enabled = true;
         }
@@ -127,7 +127,6 @@ namespace WebAPI_Windows_Client
 
             System.Data.DataTable getData = (System.Data.DataTable)JsonConvert.DeserializeObject(json, (typeof(System.Data.DataTable)));
 
-
             SqlConnection cnn;
             string connectionString = null;
             string sql = null;
@@ -163,7 +162,7 @@ namespace WebAPI_Windows_Client
             releaseObject(xlWorkBook);
             releaseObject(xlApp);
 
-            MessageBox.Show("Excel file created , you can find the file e:\\csharp.net-informations.xls");
+            MessageBox.Show("Excel file created , you can find the file c:\\csharp.net-informations.xls");
 
         }
 
