@@ -28,11 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.btnSearch = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.timerCheckTime = new System.Windows.Forms.Timer(this.components);
+            this.btnExcel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -41,37 +44,33 @@
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(18, 65);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 42);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 62;
-            this.dataGridView1.Size = new System.Drawing.Size(542, 231);
+            this.dataGridView1.Size = new System.Drawing.Size(361, 150);
             this.dataGridView1.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(20, 20);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(13, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(55, 20);
+            this.label1.Size = new System.Drawing.Size(38, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Name:";
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(75, 15);
-            this.txtName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtName.Location = new System.Drawing.Point(50, 10);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(260, 26);
+            this.txtName.Size = new System.Drawing.Size(175, 20);
             this.txtName.TabIndex = 2;
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(360, 12);
-            this.btnSearch.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnSearch.Location = new System.Drawing.Point(240, 8);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(112, 35);
+            this.btnSearch.Size = new System.Drawing.Size(75, 23);
             this.btnSearch.TabIndex = 3;
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = true;
@@ -79,25 +78,41 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(485, 12);
+            this.button1.Location = new System.Drawing.Point(323, 8);
+            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(99, 35);
+            this.button1.Size = new System.Drawing.Size(66, 23);
             this.button1.TabIndex = 4;
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // timerCheckTime
+            // 
+            this.timerCheckTime.Interval = 60000;
+            this.timerCheckTime.Tick += new System.EventHandler(this.timerCheckTime_Tick);
+            // 
+            // btnExcel
+            // 
+            this.btnExcel.Location = new System.Drawing.Point(390, 169);
+            this.btnExcel.Name = "btnExcel";
+            this.btnExcel.Size = new System.Drawing.Size(80, 23);
+            this.btnExcel.TabIndex = 5;
+            this.btnExcel.Text = "Excle create";
+            this.btnExcel.UseVisualStyleBackColor = true;
+            this.btnExcel.Click += new System.EventHandler(this.btnExcel_Click);
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(848, 317);
+            this.ClientSize = new System.Drawing.Size(565, 206);
+            this.Controls.Add(this.btnExcel);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridView1);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -114,6 +129,8 @@
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Timer timerCheckTime;
+        private System.Windows.Forms.Button btnExcel;
     }
 }
 

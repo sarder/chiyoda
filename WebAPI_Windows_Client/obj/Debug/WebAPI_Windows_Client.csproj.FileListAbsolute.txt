@@ -86,3 +86,4 @@ D:\Japan\chiyoda\WebAPI_Windows_Client\obj\Debug\WebAPI_Windows_Client.csproj.Ge
 D:\Japan\chiyoda\WebAPI_Windows_Client\obj\Debug\WebAPI_Windows_Client.csproj.CopyComplete
 D:\Japan\chiyoda\WebAPI_Windows_Client\obj\Debug\WebAPI_Windows_Client.exe
 D:\Japan\chiyoda\WebAPI_Windows_Client\obj\Debug\WebAPI_Windows_Client.pdb
+D:\Japan\chiyoda\WebAPI_Windows_Client\obj\Debug\WebAPI_Windows_Client.csproj.ResolveComReference.cache

@@ -5,7 +5,7 @@ using System.Web.Http;
 using System.Linq;
 using System.Web.Http.Description;
 using MySql.Data.MySqlClient;
-
+using System.Data;
 
 namespace DataGridView_WebAPI.Controllers
 {
@@ -55,11 +55,33 @@ namespace DataGridView_WebAPI.Controllers
 
                 //;
             }
-
-
-
             return results;
         }
+
+
+
+
+        [Route("api/CustomerAPI/GetDataForExecl")]
+        [HttpPost]
+        public DataTable GetDataForExecl()
+        {
+
+            var dataTable = new DataTable();
+            var dataSet = new DataSet();
+            var dataAdapter = new MySqlDataAdapter { SelectCommand = InitSqlCommand("select id,staff_name,staff_kana from mst_staff") };
+
+            dataAdapter.Fill(dataSet);
+            dataTable = dataSet.Tables[0];
+            return dataTable;
+
+        }
+
+        public MySqlCommand InitSqlCommand(string query)
+        {
+            var mySqlCommand = new MySqlCommand(query, WebApiConfig.conn());
+            return mySqlCommand;
+        }
+
 
 
 
