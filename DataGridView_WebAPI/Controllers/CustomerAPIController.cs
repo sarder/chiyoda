@@ -66,24 +66,38 @@ namespace DataGridView_WebAPI.Controllers
         public DataTable GetDataForExecl()
         {
 
-           
+            var dataTable = new DataTable();
+            //try
+            //{
             MySqlConnection conn = WebApiConfig.conn();
             conn.Open();
 
-            MySqlCommand query = conn.CreateCommand();
-            query.CommandText = "update tbl_excel_output set status=2 where status=1 and type =1";
-            int isUpdaste = query.ExecuteNonQuery();
+            //    MySqlCommand query = conn.CreateCommand();
+            //    query.CommandText = "update tbl_excel_output set status=2 where status=1 and type =1";
+            //    int isUpdaste = query.ExecuteNonQuery();
 
-            var dataTable = new DataTable();
+            //    if (isUpdaste > 0)
+            //    {
+            //        var dataSet = new DataSet();
+            //        var dataAdapter = new MySqlDataAdapter { SelectCommand = InitSqlCommand("select id,diagram_id,station_id,enter_schedule_time,out_schedule_time from tbl_diagram_details where status=1 and type =1") };
 
-            if (isUpdaste > 0)
-            {
-                var dataSet = new DataSet();
-                var dataAdapter = new MySqlDataAdapter { SelectCommand = InitSqlCommand("select id,diagram_id,station_id,enter_schedule_time,out_schedule_time from tbl_diagram_details where status=1 and type =1") };
+            //        dataAdapter.Fill(dataSet);
+            //        dataTable = dataSet.Tables[0];
+            //    }
 
-                dataAdapter.Fill(dataSet);
-                dataTable = dataSet.Tables[0];
-            }
+            //    conn.Close();
+            //}
+            //catch (Exception)
+            //{
+
+            //    throw;
+            //}
+
+            var dataSet = new DataSet();
+            var dataAdapter = new MySqlDataAdapter { SelectCommand = InitSqlCommand("select id,diagram_id,station_id,enter_schedule_time,out_schedule_time from tbl_diagram_details") };
+
+            dataAdapter.Fill(dataSet);
+            dataTable = dataSet.Tables[0];
 
             conn.Close();
 

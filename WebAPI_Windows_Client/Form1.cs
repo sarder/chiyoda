@@ -15,6 +15,7 @@ using System.Drawing;
 using System.Data;
 using System.Data.SqlClient;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace WebAPI_Windows_Client
 {
@@ -26,12 +27,12 @@ namespace WebAPI_Windows_Client
         }
 
         string apiUrl = "http://localhost:26404/api/CustomerAPI";
-    
 
         private void Form1_Load(object sender, EventArgs e)
         {
-           // this.PopulateDataGridView();
+            // this.PopulateDataGridView();
             //  StartupProject();
+
             timerCheckTime.Enabled = true;
         }
 
@@ -64,18 +65,12 @@ namespace WebAPI_Windows_Client
             string json = client.UploadString(apiUrl + "/GetCustomers", inputJson);
 
             dataGridView1.DataSource = (new JavaScriptSerializer()).Deserialize<List<CustomerModel>>(json);
-
- 
-
-
         }
 
 
-    
 
 
-
-    private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
 
             updateCustomer();
@@ -114,16 +109,15 @@ namespace WebAPI_Windows_Client
         #region MyRegion
 
 
-
-        public void getDataFromAPI() {
+        public void getDataFromAPI()
+        {
 
             //new code ************************************************************************************************************
-
 
             WebClient client = new WebClient();
             client.Headers["Content-type"] = "application/json";
             client.Encoding = Encoding.UTF8;
-            string json = client.UploadString(apiUrl + "/GetDataForExecl","");
+            string json = client.UploadString(apiUrl + "/GetDataForExecl", "");
 
             System.Data.DataTable getData = (System.Data.DataTable)JsonConvert.DeserializeObject(json, (typeof(System.Data.DataTable)));
 
@@ -151,10 +145,25 @@ namespace WebAPI_Windows_Client
                 {
                     data = ds.Rows[i].ItemArray[j].ToString();
                     xlWorkSheet.Cells[i + 1, j + 1] = data;
+                    xlWorkSheet.Cells[i + 1, j + 5].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.DarkGreen);
                 }
             }
 
-            xlWorkBook.SaveAs("csharp.net-informations.xls", Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
+
+
+
+            string root = @"D:\chiyoda\";
+            if (!Directory.Exists(root))
+            {
+                Directory.CreateDirectory(root);
+            }
+
+
+            string datetime = DateTime.Now.ToString();
+            string xcelFileName = ReplaceHelper.DateTimeStringBuilder(datetime);
+
+
+            xlWorkBook.SaveAs(root + xcelFileName + ".xlsx", Microsoft.Office.Interop.Excel.XlFileFormat.xlOpenXMLWorkbook, misValue, misValue, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Microsoft.Office.Interop.Excel.XlSaveConflictResolution.xlUserResolution, true, misValue, misValue, misValue);
             xlWorkBook.Close(true, misValue, misValue);
             xlApp.Quit();
 
@@ -162,7 +171,7 @@ namespace WebAPI_Windows_Client
             releaseObject(xlWorkBook);
             releaseObject(xlApp);
 
-            MessageBox.Show("Excel file created , you can find the file c:\\csharp.net-informations.xls");
+            MessageBox.Show("Excel file created , you can find the file "+ root + xcelFileName + ".xlsx");
 
         }
 
@@ -264,55 +273,7 @@ namespace WebAPI_Windows_Client
         }
 
 
-
-
-
-
-        public void old_version()
-        {
-
-
-            Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
-
-            if (xlApp == null)
-            {
-                MessageBox.Show("Excel is not properly installed!!");
-                return;
-            }
-
-
-            Workbook xlWorkBook;
-            Worksheet xlWorkSheet;
-            object misValue = System.Reflection.Missing.Value;
-
-            xlWorkBook = xlApp.Workbooks.Add(misValue);
-            xlWorkSheet = (Worksheet)xlWorkBook.Worksheets.get_Item(1);
-
-            xlWorkSheet.Cells[1, 1] = "ID";
-            xlWorkSheet.Cells[1, 2] = "Name";
-            xlWorkSheet.Cells[2, 1] = "1";
-            xlWorkSheet.Cells[2, 2] = "One";
-            xlWorkSheet.Cells[3, 1] = "2";
-            xlWorkSheet.Cells[3, 2] = "Two";
-
-            xlWorkSheet.Range["A2:E9"].Style.Color = Color.LightBlue;
-
-
-            xlWorkBook.SaveAs("d:\\csharp-Excel.xls", XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
-            xlWorkBook.Close(true, misValue, misValue);
-            xlApp.Quit();
-
-            Marshal.ReleaseComObject(xlWorkSheet);
-            Marshal.ReleaseComObject(xlWorkBook);
-            Marshal.ReleaseComObject(xlApp);
-
-            MessageBox.Show("Excel file created , you can find the file d:\\csharp-Excel.xls");
-
-        }
-
         #endregion
-
-
 
 
     }

@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI_Windows_Client", "WebAPI_Windows_Client\WebAPI_Windows_Client.csproj", "{FBE4D4AE-9A84-4B33-8E4D-22F141B42E93}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chiyoda_WFA", "WebAPI_Windows_Client\Chiyoda_WFA.csproj", "{FBE4D4AE-9A84-4B33-8E4D-22F141B42E93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataGridView_WebAPI", "DataGridView_WebAPI\DataGridView_WebAPI.csproj", "{C22B4490-40F8-4DAF-8CDC-9638801C314B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chiyoda_WebAPI", "DataGridView_WebAPI\Chiyoda_WebAPI.csproj", "{C22B4490-40F8-4DAF-8CDC-9638801C314B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +24,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2F438A61-93AD-48E1-998A-84F31657FEEE}
 	EndGlobalSection
 EndGlobal
