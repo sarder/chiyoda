@@ -33,7 +33,7 @@ namespace WebAPI_Windows_Client
             // this.PopulateDataGridView();
             //  StartupProject();
 
-            timerCheckTime.Enabled = true;
+            //  timerCheckTime.Enabled = true;
         }
 
 
@@ -113,14 +113,16 @@ namespace WebAPI_Windows_Client
         {
 
             //new code ************************************************************************************************************
-
+           
             WebClient client = new WebClient();
             client.Headers["Content-type"] = "application/json";
             client.Encoding = Encoding.UTF8;
             string json = client.UploadString(apiUrl + "/GetDataForExecl", "");
 
             System.Data.DataTable getData = (System.Data.DataTable)JsonConvert.DeserializeObject(json, (typeof(System.Data.DataTable)));
+            System.Data.DataTable ds = getData;
 
+         
             string data;
             int i = 0;
             int j = 0;
@@ -130,18 +132,17 @@ namespace WebAPI_Windows_Client
             Microsoft.Office.Interop.Excel.Worksheet xlWorkSheet;
             object misValue = System.Reflection.Missing.Value;
 
+
             xlApp = new Microsoft.Office.Interop.Excel.Application();
             xlWorkBook = xlApp.Workbooks.Add(misValue);
             xlWorkSheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
             xlWorkSheet.Shapes.AddPicture(@"D:\Japan\chiyoda\WebAPI_Windows_Client\img\ch.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, 1550, 5, 270, 170);
 
 
-            System.Data.DataTable ds = getData;
-
 
 
             //static header section start
-
+         
             xlWorkSheet.get_Range("a1", "v2").Merge(false);
             Microsoft.Office.Interop.Excel.Range chartRange;
             chartRange = xlWorkSheet.get_Range("a1", "v2");
@@ -233,10 +234,6 @@ namespace WebAPI_Windows_Client
             chartRange.Font.Size = 10;
             GetAlignmentAndFontSizeForChartRange(chartRange);
 
-
-
-
-
             //static header section end
 
 
@@ -246,12 +243,14 @@ namespace WebAPI_Windows_Client
             chartRange.HorizontalAlignment = 2;
             chartRange.VerticalAlignment = 2;
             chartRange.Font.Size = 10;
-
+           
 
             xlApp.ActiveWindow.DisplayGridlines = false;
 
 
-            //data get from database using json
+            //data get from database using json 
+
+            //*********** DO NOT DELETE IT ********* 
 
             /*  for (i = 0; i <= ds.Rows.Count - 1; i++)
               {
@@ -284,9 +283,6 @@ namespace WebAPI_Windows_Client
                     xlWorkSheet.Cells[i + 15, j + 3].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Yellow);
                 }
             }
-
-
-
 
 
 
@@ -358,29 +354,78 @@ namespace WebAPI_Windows_Client
             GetAlignmentAndFontSize(chartRangeContent);
 
 
-
-
             int startCellPosition;
             int startRowPosition;
 
+           
             for (startCellPosition = 1; startCellPosition <= 1; startCellPosition++)
             {
                 for (startRowPosition = 1; startRowPosition <= 152; startRowPosition++)
                 {
-                    if (startRowPosition == 20)
+                    xlWorkSheet.Cells[startCellPosition + 12, startRowPosition + 1].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Yellow);
+                }
+            }
+              
+
+            /*
+
+            for (startCellPosition = 1; startCellPosition <= 36; startCellPosition++)
+            {
+                for (startRowPosition = 1; startRowPosition <= 152; startRowPosition++)
+                {
+                    if (startRowPosition  % 2 == 0 )
                     {
-                        //int getcellpos = startCellPosition + 13;
-                        //int getcolumnpos = startRowPosition + 20;
+                        // xlWorkSheet.Cells[startCellPosition + 14, startRowPosition + 1].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Yellow);
 
-                        //xlWorkSheet.get_Range("a" + startCellPosition + 13, "f" + startRowPosition + 20).Merge(false);
-                        //Microsoft.Office.Interop.Excel.Range rangeposition;
-                        //rangeposition = xlWorkSheet.get_Range("a" + startCellPosition + 13, "f" + startRowPosition + 20);
-                        //rangeposition.FormulaR1C1 = "polash";
-                        //GetAlignmentAndFontSize(rangeposition);
+                        var range = xlWorkSheet.Cells[startCellPosition + 14, startRowPosition + 1];
+                        Microsoft.Office.Interop.Excel.Border border = range.Borders[Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeRight];
+                        border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlDot;
+                        border.Color = Color.Black;
+                    }
+                }
+            }
+            */
 
+
+
+            //********************ROUGPH*****************************
+
+            for (startCellPosition = 1; startCellPosition <= 36; startCellPosition++)
+            {
+                for (startRowPosition = 1; startRowPosition <= 152; startRowPosition++)
+                {
+                   if (startRowPosition  % 2 == 0 )
+                    {
+                        // xlWorkSheet.Cells[startCellPosition + 14, startRowPosition + 1].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Yellow);
+
+                        var range = xlWorkSheet.Cells[startCellPosition + 14, startRowPosition + 1];
+                        Microsoft.Office.Interop.Excel.Border border = range.Borders[Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeRight];
+                        border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlDot;
+                        border.Color = Color.Black;
                     }
 
-                    xlWorkSheet.Cells[startCellPosition + 12, startRowPosition + 1].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Yellow);
+                   
+                    if (startCellPosition % 4 == 0)
+                    {
+                        var range = xlWorkSheet.Cells[startCellPosition + 14, startRowPosition + 1];
+                        Microsoft.Office.Interop.Excel.Border border = range.Borders[Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeBottom];
+                        border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                        border.Color = Color.Black;
+                    }
+
+
+                    if (startRowPosition % 12 == 0)
+                    {
+                    
+                        var range = xlWorkSheet.Cells[startCellPosition + 14, startRowPosition + 1];
+                        Microsoft.Office.Interop.Excel.Border border = range.Borders[Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeRight];
+                        border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                        border.Color = Color.Black;
+                    }
+
+
+
+                    //  xlWorkSheet.Cells[startCellPosition + 12, startRowPosition + 1].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Yellow);
                 }
             }
 
