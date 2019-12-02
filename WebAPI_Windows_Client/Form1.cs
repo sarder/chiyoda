@@ -133,7 +133,7 @@ namespace WebAPI_Windows_Client
             xlApp = new Microsoft.Office.Interop.Excel.Application();
             xlWorkBook = xlApp.Workbooks.Add(misValue);
             xlWorkSheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
-            xlWorkSheet.Shapes.AddPicture(@"D:\Japan\chiyoda\WebAPI_Windows_Client\img\ch.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, 1550, 5, 270, 180);
+            xlWorkSheet.Shapes.AddPicture(@"D:\Japan\chiyoda\WebAPI_Windows_Client\img\ch.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, 1550, 5, 270, 170);
 
 
             System.Data.DataTable ds = getData;
@@ -146,110 +146,92 @@ namespace WebAPI_Windows_Client
             Microsoft.Office.Interop.Excel.Range chartRange;
             chartRange = xlWorkSheet.get_Range("a1", "v2");
             chartRange.FormulaR1C1 = "千代田工業㈱";
-            chartRange.HorizontalAlignment = 3;
-            chartRange.VerticalAlignment = 3;
             chartRange.Font.Size = 20;
+            GetAlignmentAndFontSizeForChartRange(chartRange);
 
 
             xlWorkSheet.get_Range("a3", "v4").Merge(false);
             chartRange = xlWorkSheet.get_Range("a3", "v4");
             chartRange.FormulaR1C1 = "豊明工場ST表";
-            chartRange.HorizontalAlignment = 3;
-            chartRange.VerticalAlignment = 3;
             chartRange.Font.Size = 20;
+            GetAlignmentAndFontSizeForChartRange(chartRange);
 
 
             xlWorkSheet.get_Range("a10", "v11").Merge(false);
             chartRange = xlWorkSheet.get_Range("a10", "v11");
             chartRange.FormulaR1C1 = "2019年 11月29日～";
-            chartRange.HorizontalAlignment = 3;
-            chartRange.VerticalAlignment = 3;
             chartRange.Font.Size = 20;
+            GetAlignmentAndFontSizeForChartRange(chartRange);
+
+
 
             xlWorkSheet.get_Range("y1", "af2").Merge(false);
             chartRange = xlWorkSheet.get_Range("y1", "af2");
             chartRange.FormulaR1C1 = "ST配置図";
-            chartRange.HorizontalAlignment = 3;
-            chartRange.VerticalAlignment = 3;
             chartRange.Font.Size = 10;
+            GetAlignmentAndFontSizeForChartRange(chartRange);
 
 
 
             xlWorkSheet.get_Range("bq1", "dm1").Merge(false);
             chartRange = xlWorkSheet.get_Range("bq1", "dm1");
             chartRange.FormulaR1C1 = "月度変化点";
-            chartRange.HorizontalAlignment = 3;
-            chartRange.VerticalAlignment = 3;
             chartRange.Font.Size = 10;
             xlWorkSheet.Range["bq1", "dm1"].Borders.Color = Color.Black;
+            GetAlignmentAndFontSizeForChartRange(chartRange);
 
-          
+
 
             xlWorkSheet.get_Range("bq2", "dm3").Merge(false);
             chartRange = xlWorkSheet.get_Range("bq2", "dm3");
-           // chartRange.FormulaR1C1 = "月度変化点";
-            chartRange.HorizontalAlignment = 3;
-            chartRange.VerticalAlignment = 3;
             chartRange.Font.Size = 15;
             xlWorkSheet.Range["bq2", "dm3"].Borders.Color = Color.Black;
+            GetAlignmentAndFontSizeForChartRange(chartRange);
 
 
 
             xlWorkSheet.get_Range("bq4", "dm5").Merge(false);
             chartRange = xlWorkSheet.get_Range("bq4", "dm5");
-            // chartRange.FormulaR1C1 = "月度変化点";
-            chartRange.HorizontalAlignment = 3;
-            chartRange.VerticalAlignment = 3;
             chartRange.Font.Size = 15;
             xlWorkSheet.Range["bq4", "dm5"].Borders.Color = Color.Black;
+            GetAlignmentAndFontSizeForChartRange(chartRange);
 
 
 
             xlWorkSheet.get_Range("bq6", "dm7").Merge(false);
             chartRange = xlWorkSheet.get_Range("bq6", "dm7");
-            // chartRange.FormulaR1C1 = "月度変化点";
-            chartRange.HorizontalAlignment = 3;
-            chartRange.VerticalAlignment = 3;
             chartRange.Font.Size = 15;
             xlWorkSheet.Range["bq6", "dm7"].Borders.Color = Color.Black;
-
+            GetAlignmentAndFontSizeForChartRange(chartRange);
 
 
             xlWorkSheet.get_Range("bq8", "dm9").Merge(false);
             chartRange = xlWorkSheet.get_Range("bq8", "dm9");
-            // chartRange.FormulaR1C1 = "月度変化点";
-            chartRange.HorizontalAlignment = 3;
-            chartRange.VerticalAlignment = 3;
             chartRange.Font.Size = 15;
             xlWorkSheet.Range["bq8", "dm9"].Borders.Color = Color.Black;
-
-
+            GetAlignmentAndFontSizeForChartRange(chartRange);
 
 
             xlWorkSheet.get_Range("bq10", "dm11").Merge(false);
             chartRange = xlWorkSheet.get_Range("bq10", "dm11");
-            // chartRange.FormulaR1C1 = "月度変化点";
-            chartRange.HorizontalAlignment = 3;
-            chartRange.VerticalAlignment = 3;
             chartRange.Font.Size = 15;
             xlWorkSheet.Range["bq10", "dm11"].Borders.Color = Color.Black;
+            GetAlignmentAndFontSizeForChartRange(chartRange);
 
 
 
             xlWorkSheet.get_Range("eh1", "ew1").Merge(false);
             chartRange = xlWorkSheet.get_Range("eh1", "ew1");
             chartRange.FormulaR1C1 = "生産管理部工務改善課";
-            chartRange.HorizontalAlignment = 3;
-            chartRange.VerticalAlignment = 3;
             chartRange.Font.Size = 10;
+            GetAlignmentAndFontSizeForChartRange(chartRange);
 
 
             xlWorkSheet.get_Range("eh2", "ew2").Merge(false);
             chartRange = xlWorkSheet.get_Range("eh2", "ew2");
             chartRange.FormulaR1C1 = "物流改善係";
-            chartRange.HorizontalAlignment = 3;
-            chartRange.VerticalAlignment = 3;
             chartRange.Font.Size = 10;
+            GetAlignmentAndFontSizeForChartRange(chartRange);
 
 
 
@@ -266,24 +248,21 @@ namespace WebAPI_Windows_Client
             chartRange.Font.Size = 10;
 
 
-
-
-
             xlApp.ActiveWindow.DisplayGridlines = false;
 
 
             //data get from database using json
 
-          /*  for (i = 0; i <= ds.Rows.Count - 1; i++)
-            {
-                for (j = 0; j <= ds.Columns.Count - 1; j++)
-                {
-                    data = ds.Rows[i].ItemArray[j].ToString();
-                    xlWorkSheet.Cells[i + 60, j + 1] = data;
-                    //xlWorkSheet.Cells[i + 1, j + 5].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.DarkGreen);
-                }
-            }
-            */
+            /*  for (i = 0; i <= ds.Rows.Count - 1; i++)
+              {
+                  for (j = 0; j <= ds.Columns.Count - 1; j++)
+                  {
+                      data = ds.Rows[i].ItemArray[j].ToString();
+                      xlWorkSheet.Cells[i + 60, j + 1] = data;
+                      //xlWorkSheet.Cells[i + 1, j + 5].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.DarkGreen);
+                  }
+              }
+              */
 
 
 
@@ -296,8 +275,114 @@ namespace WebAPI_Windows_Client
             Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic);
 
 
-         
 
+            //background yellow color for left side
+            for (i = 0; i <= 35; i++)
+            {
+                for (j = 0; j <= 2; j++)
+                {
+                    xlWorkSheet.Cells[i + 15, j + 3].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Yellow);
+                }
+            }
+
+
+
+
+
+
+
+            xlWorkSheet.get_Range("c15", "e18").Merge(false);
+            Microsoft.Office.Interop.Excel.Range chartRangeContent;
+            chartRangeContent = xlWorkSheet.get_Range("c15", "e18");
+            chartRangeContent.FormulaR1C1 = "ST1";
+            GetAlignmentAndFontSize(chartRangeContent);
+
+
+
+            xlWorkSheet.get_Range("c19", "e22").Merge(false);
+            chartRangeContent = xlWorkSheet.get_Range("c19", "e22");
+            chartRangeContent.FormulaR1C1 = "ST2";
+            GetAlignmentAndFontSize(chartRangeContent);
+
+
+
+            xlWorkSheet.get_Range("c23", "e26").Merge(false);
+            chartRangeContent = xlWorkSheet.get_Range("c23", "e26");
+            chartRangeContent.FormulaR1C1 = "ST3";
+            GetAlignmentAndFontSize(chartRangeContent);
+
+
+
+            xlWorkSheet.get_Range("c27", "e30").Merge(false);
+            chartRangeContent = xlWorkSheet.get_Range("c27", "e30");
+            chartRangeContent.FormulaR1C1 = "ST4";
+            GetAlignmentAndFontSize(chartRangeContent);
+
+
+
+
+            xlWorkSheet.get_Range("c31", "e34").Merge(false);
+            chartRangeContent = xlWorkSheet.get_Range("c31", "e34");
+            chartRangeContent.FormulaR1C1 = "ST5";
+            GetAlignmentAndFontSize(chartRangeContent);
+
+
+
+            xlWorkSheet.get_Range("c35", "e38").Merge(false);
+            chartRangeContent = xlWorkSheet.get_Range("c35", "e38");
+            chartRangeContent.FormulaR1C1 = "ST6";
+            GetAlignmentAndFontSize(chartRangeContent);
+
+
+
+            xlWorkSheet.get_Range("c39", "e42").Merge(false);
+            chartRangeContent = xlWorkSheet.get_Range("c39", "e42");
+            chartRangeContent.FormulaR1C1 = "ST7";
+            GetAlignmentAndFontSize(chartRangeContent);
+
+
+
+
+
+            xlWorkSheet.get_Range("c43", "e46").Merge(false);
+            chartRangeContent = xlWorkSheet.get_Range("c43", "e46");
+            chartRangeContent.FormulaR1C1 = "待機場";
+            GetAlignmentAndFontSize(chartRangeContent);
+
+
+
+
+            xlWorkSheet.get_Range("c47", "e50").Merge(false);
+            chartRangeContent = xlWorkSheet.get_Range("c47", "e50");
+            chartRangeContent.FormulaR1C1 = "待機場";
+            GetAlignmentAndFontSize(chartRangeContent);
+
+
+
+
+            int startCellPosition;
+            int startRowPosition;
+
+            for (startCellPosition = 1; startCellPosition <= 1; startCellPosition++)
+            {
+                for (startRowPosition = 1; startRowPosition <= 152; startRowPosition++)
+                {
+                    if (startRowPosition == 20)
+                    {
+                        //int getcellpos = startCellPosition + 13;
+                        //int getcolumnpos = startRowPosition + 20;
+
+                        //xlWorkSheet.get_Range("a" + startCellPosition + 13, "f" + startRowPosition + 20).Merge(false);
+                        //Microsoft.Office.Interop.Excel.Range rangeposition;
+                        //rangeposition = xlWorkSheet.get_Range("a" + startCellPosition + 13, "f" + startRowPosition + 20);
+                        //rangeposition.FormulaR1C1 = "polash";
+                        //GetAlignmentAndFontSize(rangeposition);
+
+                    }
+
+                    xlWorkSheet.Cells[startCellPosition + 12, startRowPosition + 1].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Yellow);
+                }
+            }
 
 
 
@@ -305,12 +390,14 @@ namespace WebAPI_Windows_Client
             //dynamic section end here 
 
             xlWorkSheet.Cells.ColumnWidth = 1;
-         
+
             string root = @"C:\chiyoda\";
             if (!Directory.Exists(root))
             {
                 Directory.CreateDirectory(root);
             }
+
+
 
 
             string datetime = DateTime.Now.ToString();
@@ -328,6 +415,26 @@ namespace WebAPI_Windows_Client
             MessageBox.Show("Excel file created , you can find the file " + root + xcelFileName + ".xlsx");
 
         }
+
+
+        public void GetAlignmentAndFontSize(Range chartRangeContent)
+        {
+            chartRangeContent.HorizontalAlignment = 2;
+            chartRangeContent.VerticalAlignment = 2;
+            chartRangeContent.Font.Size = 15;
+            chartRangeContent.Borders.Color = Color.Black.ToArgb();
+        }
+
+
+        public void GetAlignmentAndFontSizeForChartRange(Range chartRange)
+        {
+
+            chartRange.HorizontalAlignment = 3;
+            chartRange.VerticalAlignment = 3;
+        }
+
+
+
 
         //Execl work related method
         private void btnExcel_Click(object sender, EventArgs e)
