@@ -182,7 +182,7 @@ namespace WebAPI_Windows_Client
 
             xlWorkSheet.get_Range("a10", "v11").Merge(false);
             chartRange = xlWorkSheet.get_Range("a10", "v11");
-            chartRange.FormulaR1C1 = GetYear + "年"+ GetMonth + "月"+ GetDay + "日～";
+            chartRange.FormulaR1C1 = GetYear + "年" + GetMonth + "月" + GetDay + "日～";
             chartRange.Font.Size = 20;
             GetAlignmentAndFontSizeForChartRange(chartRange);
 
@@ -439,6 +439,16 @@ namespace WebAPI_Windows_Client
             }
 
 
+
+            for (i = 0; i <= ds.Rows.Count - 1; i++)
+            {
+                for (j = 0; j <= ds.Columns.Count - 1; j++)
+                {
+                    data = ds.Rows[i].ItemArray[j].ToString();
+                    xlWorkSheet.Cells[i + 60, j + 1] = data;
+                    //xlWorkSheet.Cells[i + 1, j + 5].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.DarkGreen);
+                }
+            }
 
 
             //dynamic section end here 
