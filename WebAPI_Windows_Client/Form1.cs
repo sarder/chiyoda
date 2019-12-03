@@ -27,6 +27,9 @@ namespace WebAPI_Windows_Client
         }
 
         string apiUrl = "http://localhost:26404/api/CustomerAPI";
+        String GetDay = "";
+        string GetMonth = "";
+        string GetYear = "";
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -34,7 +37,23 @@ namespace WebAPI_Windows_Client
             //  StartupProject();
 
             //  timerCheckTime.Enabled = true;
+
+            GetDateTime();
         }
+
+        public void GetDateTime()
+        {
+
+            String sDate = DateTime.Now.ToString();
+            DateTime datevalue = (Convert.ToDateTime(sDate.ToString()));
+
+            GetDay = datevalue.Day.ToString();
+            GetMonth = datevalue.Month.ToString();
+            GetYear = datevalue.Year.ToString();
+
+        }
+
+
 
 
 
@@ -113,7 +132,7 @@ namespace WebAPI_Windows_Client
         {
 
             //new code ************************************************************************************************************
-           
+
             WebClient client = new WebClient();
             client.Headers["Content-type"] = "application/json";
             client.Encoding = Encoding.UTF8;
@@ -122,7 +141,7 @@ namespace WebAPI_Windows_Client
             System.Data.DataTable getData = (System.Data.DataTable)JsonConvert.DeserializeObject(json, (typeof(System.Data.DataTable)));
             System.Data.DataTable ds = getData;
 
-         
+
             string data;
             int i = 0;
             int j = 0;
@@ -141,8 +160,9 @@ namespace WebAPI_Windows_Client
 
 
 
+
             //static header section start
-         
+
             xlWorkSheet.get_Range("a1", "v2").Merge(false);
             Microsoft.Office.Interop.Excel.Range chartRange;
             chartRange = xlWorkSheet.get_Range("a1", "v2");
@@ -158,9 +178,11 @@ namespace WebAPI_Windows_Client
             GetAlignmentAndFontSizeForChartRange(chartRange);
 
 
+
+
             xlWorkSheet.get_Range("a10", "v11").Merge(false);
             chartRange = xlWorkSheet.get_Range("a10", "v11");
-            chartRange.FormulaR1C1 = "2019年 11月29日～";
+            chartRange.FormulaR1C1 = GetYear + "年"+ GetMonth + "月"+ GetDay + "日～";
             chartRange.Font.Size = 20;
             GetAlignmentAndFontSizeForChartRange(chartRange);
 
@@ -243,7 +265,7 @@ namespace WebAPI_Windows_Client
             chartRange.HorizontalAlignment = 2;
             chartRange.VerticalAlignment = 2;
             chartRange.Font.Size = 10;
-           
+
 
             xlApp.ActiveWindow.DisplayGridlines = false;
 
@@ -354,49 +376,35 @@ namespace WebAPI_Windows_Client
             GetAlignmentAndFontSize(chartRangeContent);
 
 
+
+
+
+
             int startCellPosition;
             int startRowPosition;
 
-           
-            for (startCellPosition = 1; startCellPosition <= 1; startCellPosition++)
-            {
-                for (startRowPosition = 1; startRowPosition <= 152; startRowPosition++)
-                {
-                    xlWorkSheet.Cells[startCellPosition + 12, startRowPosition + 1].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Yellow);
-                }
-            }
-              
 
-            /*
-
-            for (startCellPosition = 1; startCellPosition <= 36; startCellPosition++)
-            {
-                for (startRowPosition = 1; startRowPosition <= 152; startRowPosition++)
-                {
-                    if (startRowPosition  % 2 == 0 )
-                    {
-                        // xlWorkSheet.Cells[startCellPosition + 14, startRowPosition + 1].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Yellow);
-
-                        var range = xlWorkSheet.Cells[startCellPosition + 14, startRowPosition + 1];
-                        Microsoft.Office.Interop.Excel.Border border = range.Borders[Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeRight];
-                        border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlDot;
-                        border.Color = Color.Black;
-                    }
-                }
-            }
-            */
+            //for (startCellPosition = 1; startCellPosition <= 1; startCellPosition++)
+            //{
+            //    for (startRowPosition = 1; startRowPosition <= 152; startRowPosition++)
+            //    {
+            //        xlWorkSheet.Cells[startCellPosition + 12, startRowPosition + 1].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Yellow);
+            //    }
+            //}
 
 
 
-            //********************ROUGPH*****************************
+
+
+
+            //********************grid code*****************************
 
             for (startCellPosition = 1; startCellPosition <= 36; startCellPosition++)
             {
                 for (startRowPosition = 1; startRowPosition <= 152; startRowPosition++)
                 {
-                   if (startRowPosition  % 2 == 0 )
+                    if (startRowPosition % 2 == 0)
                     {
-                        // xlWorkSheet.Cells[startCellPosition + 14, startRowPosition + 1].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Yellow);
 
                         var range = xlWorkSheet.Cells[startCellPosition + 14, startRowPosition + 1];
                         Microsoft.Office.Interop.Excel.Border border = range.Borders[Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeRight];
@@ -404,7 +412,7 @@ namespace WebAPI_Windows_Client
                         border.Color = Color.Black;
                     }
 
-                   
+
                     if (startCellPosition % 4 == 0)
                     {
                         var range = xlWorkSheet.Cells[startCellPosition + 14, startRowPosition + 1];
@@ -416,11 +424,12 @@ namespace WebAPI_Windows_Client
 
                     if (startRowPosition % 12 == 0)
                     {
-                    
+
                         var range = xlWorkSheet.Cells[startCellPosition + 14, startRowPosition + 1];
                         Microsoft.Office.Interop.Excel.Border border = range.Borders[Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeRight];
                         border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
                         border.Color = Color.Black;
+
                     }
 
 
