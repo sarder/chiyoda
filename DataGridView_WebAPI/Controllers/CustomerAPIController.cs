@@ -12,17 +12,30 @@ namespace DataGridView_WebAPI.Controllers
 
     public class results
     {
-        public string name { get; set; }
-        public string kana { get; set; }
-        public int id { get; set; }
+        public int STATION_ID { get; set; }
+        public string STATION_INDEX { get; set; }
+        public string ENTER_SCHEDULE_TIME { get; set; }
+        public string OUT_SCHEDULE_TIME { get; set; }
+        public int TRANSPORT_ID { get; set; }
+        public string COMPANY_NAME { get; set; }
+        public string BACKGROUND_COLOR { get; set; }
+        public string FONT_COLOR { get; set; }
+
+
         public results()
         {
 
         }
-        public results(string name, string kana)
+        public results(int stationId, string stationIndex, string EnterScheduleTime, string OutScheduleTime, int TransposrtId, string CompanyName, String BackgoundColor, string FontColor)
         {
-            this.name = name;
-            this.kana = kana;
+            this.STATION_ID = stationId;
+            this.STATION_INDEX = stationIndex;
+            this.ENTER_SCHEDULE_TIME = EnterScheduleTime;
+            this.OUT_SCHEDULE_TIME = OutScheduleTime;
+            this.TRANSPORT_ID = TransposrtId;
+            this.COMPANY_NAME = CompanyName;
+            this.BACKGROUND_COLOR = BackgoundColor;
+            this.FONT_COLOR = FontColor;
         }
     }
     public class CustomerAPIController : ApiController
@@ -31,13 +44,22 @@ namespace DataGridView_WebAPI.Controllers
 
         [Route("api/CustomerAPI/GetCustomers")]
         [HttpPost]
-        public List<results> GetCustomers(results result)
+        public List<results> GetCustomers()
         {
             MySqlConnection conn = WebApiConfig.conn();
             MySqlCommand query = conn.CreateCommand();
 
-            query.CommandText = "select select id,diagram_id,station_id,enter_schedule_time,out_schedule_time from tbl_diagram_details";
-            query.Parameters.AddWithValue("@staff_name", result.name);
+            //  query.CommandText = "select id,diagram_id,station_id,enter_schedule_time,out_schedule_time from tbl_diagram_details"; 
+
+            //query.CommandText = "SELECT tbl_diagram_details.station_id, LOWER(SUBSTRING(mst_station.station_name, 1, 3)) as station_index,tbl_diagram_details.enter_schedule_time, tbl_diagram_details.out_schedule_time, tbl_diagram.transport_id,  mst_transport.company_name,  mst_transport.background_color as background_color, mst_transport.font_color as font_color, tbl_diagram.switching_date FROM tbl_diagram_details,tbl_diagram,mst_transport,mst_station WHERE tbl_diagram.id = tbl_diagram_details.diagram_id AND tbl_diagram.transport_id = mst_transport.id AND tbl_diagram_details.station_id = mst_station.id AND tbl_diagram.switching_date > CURDATE();";
+
+
+
+            query.CommandText = "SELECT tbl_diagram_details.station_id, LOWER(SUBSTRING(mst_station.station_name, 1, 3)) as station_index,tbl_diagram_details.enter_schedule_time, tbl_diagram_details.out_schedule_time, tbl_diagram.transport_id,  mst_transport.company_name,  mst_transport.background_color as background_color, mst_transport.font_color as font_color, tbl_diagram.switching_date FROM tbl_diagram_details,tbl_diagram,mst_transport,mst_station WHERE tbl_diagram.id = tbl_diagram_details.diagram_id AND tbl_diagram.transport_id = mst_transport.id AND tbl_diagram_details.station_id = mst_station.id ";
+
+
+            // query.Parameters.AddWithValue("@staff_name", result.name);
+
 
             var results = new List<results>();
             try
@@ -46,7 +68,7 @@ namespace DataGridView_WebAPI.Controllers
                 MySqlDataReader fetch_query = query.ExecuteReader();
                 while (fetch_query.Read())
                 {
-                    results.Add(new results(fetch_query["staff_name"].ToString(), fetch_query["staff_kana"].ToString()));
+                    results.Add(new results(Convert.ToInt32(fetch_query["station_id"]), fetch_query["station_index"].ToString(), fetch_query["enter_schedule_time"].ToString(), fetch_query["out_schedule_time"].ToString(), Convert.ToInt32(fetch_query["transport_id"]), fetch_query["company_name"].ToString(), fetch_query["background_color"].ToString(), fetch_query["font_color"].ToString()));
                 }
                 conn.Close();
             }
@@ -122,7 +144,7 @@ namespace DataGridView_WebAPI.Controllers
             MySqlConnection conn = WebApiConfig.conn();
             MySqlCommand query = conn.CreateCommand();
 
-            query.CommandText = "UPDATE mst_staff SET staff_name = '" + result.name + "',  staff_kana = '" + result.kana + "' WHERE id = '" + result.id + "'";
+            //query.CommandText = "UPDATE mst_staff SET staff_name = '" + result.enter_schedule_time + "',  staff_kana = '" + result.enter_schedule_time + "' WHERE id = '" + result.id + "'";
 
             try
             {

@@ -17,6 +17,7 @@ using System.Data.SqlClient;
 using Newtonsoft.Json;
 using System.IO;
 
+
 namespace WebAPI_Windows_Client
 {
     public partial class Form1 : Form
@@ -67,7 +68,7 @@ namespace WebAPI_Windows_Client
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            this.PopulateDataGridView();
+            PopulateDataGridView();
         }
 
         private void PopulateDataGridView()
@@ -81,9 +82,24 @@ namespace WebAPI_Windows_Client
             WebClient client = new WebClient();
             client.Headers["Content-type"] = "application/json";
             client.Encoding = Encoding.UTF8;
-            string json = client.UploadString(apiUrl + "/GetCustomers", inputJson);
+            string json = client.UploadString(apiUrl + "/GetCustomers", "");
 
-            dataGridView1.DataSource = (new JavaScriptSerializer()).Deserialize<List<CustomerModel>>(json);
+            //  dataGridView1.DataSource = (new JavaScriptSerializer()).Deserialize<List<CustomerModel>>(json);
+            List<ExcelDiagramModel> excelDiagramModel = (new JavaScriptSerializer()).Deserialize<List<ExcelDiagramModel>>(json);
+
+            for (int i = 0; i < 1; i++)
+            {
+                ExcelDiagramModel excelDiagramModel1 = new ExcelDiagramModel();
+                excelDiagramModel1.STATION_ID = excelDiagramModel[i].STATION_ID;
+                excelDiagramModel1.STATION_INDEX = excelDiagramModel[i].STATION_INDEX;
+                excelDiagramModel1.ENTER_SCHEDULE_TIME = excelDiagramModel[i].ENTER_SCHEDULE_TIME;
+                excelDiagramModel1.OUT_SCHEDULE_TIME = excelDiagramModel[i].OUT_SCHEDULE_TIME;
+                excelDiagramModel1.TRANSPORT_ID = excelDiagramModel[i].TRANSPORT_ID;
+                excelDiagramModel1.COMPANY_NAME = excelDiagramModel[i].COMPANY_NAME;
+                excelDiagramModel1.BACKGROUND_COLOR = excelDiagramModel[i].BACKGROUND_COLOR;
+                excelDiagramModel1.FONT_COLOR = excelDiagramModel[i].FONT_COLOR;
+            }
+
         }
 
 
@@ -102,9 +118,9 @@ namespace WebAPI_Windows_Client
 
 
             results p = new results();
-            p.kana = "Rolex";
-            p.name = "Watch";
-            p.id = 20;
+            //p.enter_schedule_time = "Rolex";
+            //p.enter_schedule_time = "Watch";
+            //p.id = 20;
 
 
             string inputJson = (new JavaScriptSerializer()).Serialize(p);
@@ -155,14 +171,16 @@ namespace WebAPI_Windows_Client
             xlApp = new Microsoft.Office.Interop.Excel.Application();
             xlWorkBook = xlApp.Workbooks.Add(misValue);
             xlWorkSheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
+            /* undo it
+             xlWorkSheet.Shapes.AddPicture(@"D:\Japan\chiyoda\WebAPI_Windows_Client\img\ch.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, 1550, 5, 270, 170);
+
+             */
+
             xlWorkSheet.Shapes.AddPicture(@"D:\Japan\chiyoda\WebAPI_Windows_Client\img\ch.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, 1550, 5, 270, 170);
 
 
-
-
-
             //static header section start
-
+            /* undo it*/
             xlWorkSheet.get_Range("a1", "v2").Merge(false);
             Microsoft.Office.Interop.Excel.Range chartRange;
             chartRange = xlWorkSheet.get_Range("a1", "v2");
@@ -266,6 +284,7 @@ namespace WebAPI_Windows_Client
             chartRange.VerticalAlignment = 2;
             chartRange.Font.Size = 10;
 
+            /*  undo it */
 
             xlApp.ActiveWindow.DisplayGridlines = false;
 
@@ -297,7 +316,7 @@ namespace WebAPI_Windows_Client
 
 
 
-            //background yellow color for left side
+            // background yellow color for left side
             for (i = 0; i <= 35; i++)
             {
                 for (j = 0; j <= 2; j++)
@@ -308,7 +327,7 @@ namespace WebAPI_Windows_Client
 
 
 
-
+            /* undo it*/
             xlWorkSheet.get_Range("c15", "e18").Merge(false);
             Microsoft.Office.Interop.Excel.Range chartRangeContent;
             chartRangeContent = xlWorkSheet.get_Range("c15", "e18");
@@ -380,8 +399,8 @@ namespace WebAPI_Windows_Client
 
 
 
-            int startCellPosition;
-            int startRowPosition;
+            int startCellRowPosition;
+            int startCellColumnPosition;
 
 
             //for (startCellPosition = 1; startCellPosition <= 1; startCellPosition++)
@@ -395,63 +414,95 @@ namespace WebAPI_Windows_Client
 
 
 
+            //********************grid code for day shift*****************************
 
+            string jsonData = client.UploadString(apiUrl + "/GetCustomers", "");
+            List<ExcelDiagramModel> excelDiagramModel = (new JavaScriptSerializer()).Deserialize<List<ExcelDiagramModel>>(jsonData);
+            ExcelDiagramModel excelDiagramModel1 = new ExcelDiagramModel();
 
-            //********************grid code*****************************
-
-            for (startCellPosition = 1; startCellPosition <= 36; startCellPosition++)
+            for (startCellRowPosition = 1; startCellRowPosition <= 36; startCellRowPosition++)  //startCellRowPosition 36
             {
-                for (startRowPosition = 1; startRowPosition <= 152; startRowPosition++)
+                for (startCellColumnPosition = 1; startCellColumnPosition <= 152; startCellColumnPosition++) //startCellColumnPosition 152
                 {
-                    if (startRowPosition % 2 == 0)
-                    {
 
-                        var range = xlWorkSheet.Cells[startCellPosition + 14, startRowPosition + 1];
+                    //for (int count = 0; count < 1; count++)
+                    //{
+                    //    excelDiagramModel1.STATION_ID = excelDiagramModel[count].STATION_ID;
+                    //    excelDiagramModel1.STATION_INDEX = excelDiagramModel[count].STATION_INDEX;
+                    //    excelDiagramModel1.ENTER_SCHEDULE_TIME = excelDiagramModel[count].ENTER_SCHEDULE_TIME;
+                    //    excelDiagramModel1.OUT_SCHEDULE_TIME = excelDiagramModel[count].OUT_SCHEDULE_TIME;
+                    //    excelDiagramModel1.TRANSPORT_ID = excelDiagramModel[count].TRANSPORT_ID;
+                    //    excelDiagramModel1.COMPANY_NAME = excelDiagramModel[count].COMPANY_NAME;
+                    //    excelDiagramModel1.BACKGROUND_COLOR = excelDiagramModel[count].BACKGROUND_COLOR;
+                    //    excelDiagramModel1.FONT_COLOR = excelDiagramModel[count].FONT_COLOR;
+
+                    //    if (excelDiagramModel1.STATION_ID == 1)
+                    //    {
+                    //        string getFromColumnName = ColumnIndexToColumnLetter(47);
+                    //        string getToColumnName = ColumnIndexToColumnLetter(50);
+
+                    //        //xlWorkSheet.get_Range("c47", "e50").Merge(false);
+                    //        //chartRangeContent = xlWorkSheet.get_Range("c47", "e50");
+                    //        //chartRangeContent.FormulaR1C1 = "待機場";
+                    //        //GetAlignmentAndFontSize(chartRangeContent);
+                    //    }
+
+                    //}
+
+
+
+                    // string getColumnName = ColumnIndexToColumnLetter(10);
+
+                    //data = ds.Rows[startCellPosition].ItemArray[startRowPosition].ToString();
+                    //xlWorkSheet.Cells[startCellPosition + 17, startRowPosition + 1] = items;
+
+
+                    if (startCellColumnPosition % 2 == 0)//for dot line
+                    {
+                        var range = xlWorkSheet.Cells[startCellRowPosition + 14, startCellColumnPosition + 1];
                         Microsoft.Office.Interop.Excel.Border border = range.Borders[Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeRight];
                         border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlDot;
                         border.Color = Color.Black;
+
                     }
 
 
-                    if (startCellPosition % 4 == 0)
+                    if (startCellRowPosition % 4 == 0) //
                     {
-                        var range = xlWorkSheet.Cells[startCellPosition + 14, startRowPosition + 1];
+                        var range = xlWorkSheet.Cells[startCellRowPosition + 14, startCellColumnPosition + 1];
                         Microsoft.Office.Interop.Excel.Border border = range.Borders[Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeBottom];
                         border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
                         border.Color = Color.Black;
                     }
 
 
-                    if (startRowPosition % 12 == 0)
+                    if (startCellColumnPosition % 12 == 0)
                     {
-
-                        var range = xlWorkSheet.Cells[startCellPosition + 14, startRowPosition + 1];
+                        var range = xlWorkSheet.Cells[startCellRowPosition + 14, startCellColumnPosition + 1];
                         Microsoft.Office.Interop.Excel.Border border = range.Borders[Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeRight];
                         border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
                         border.Color = Color.Black;
 
                     }
 
+                    //xlWorkSheet.Cells[startCellPosition + 12, startRowPosition + 1].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Yellow);
 
+                    //if (startCellColumnPosition == 50)
+                    //{
+                    //    break;
+                    //}
 
-                    //  xlWorkSheet.Cells[startCellPosition + 12, startRowPosition + 1].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Yellow);
                 }
             }
 
 
 
-            for (i = 0; i <= ds.Rows.Count - 1; i++)
-            {
-                for (j = 0; j <= ds.Columns.Count - 1; j++)
-                {
-                    data = ds.Rows[i].ItemArray[j].ToString();
-                    xlWorkSheet.Cells[i + 60, j + 1] = data;
-                    //xlWorkSheet.Cells[i + 1, j + 5].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.DarkGreen);
-                }
-            }
 
 
             //dynamic section end here 
+
+
+
 
             xlWorkSheet.Cells.ColumnWidth = 1;
 
@@ -463,12 +514,13 @@ namespace WebAPI_Windows_Client
 
 
 
-
-            string datetime = DateTime.Now.ToString();
+            string datetime = DateTime.Now.ToString("yyyy/mm/dd");
             string xcelFileName = ReplaceHelper.DateTimeStringBuilder(datetime);
 
+            xlWorkSheet = (Worksheet)xlApp.Worksheets["Sheet1"];
+            xlWorkSheet.Name = "豊明" + xcelFileName;
 
-            xlWorkBook.SaveAs(root + xcelFileName + ".xlsx", Microsoft.Office.Interop.Excel.XlFileFormat.xlOpenXMLWorkbook, misValue, misValue, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Microsoft.Office.Interop.Excel.XlSaveConflictResolution.xlUserResolution, true, misValue, misValue, misValue);
+            xlWorkBook.SaveAs(root + xcelFileName + "_豊明工場ST表.xlsx", Microsoft.Office.Interop.Excel.XlFileFormat.xlOpenXMLWorkbook, misValue, misValue, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Microsoft.Office.Interop.Excel.XlSaveConflictResolution.xlUserResolution, true, misValue, misValue, misValue);
             xlWorkBook.Close(true, misValue, misValue);
             xlApp.Quit();
 
@@ -503,8 +555,13 @@ namespace WebAPI_Windows_Client
         //Execl work related method
         private void btnExcel_Click(object sender, EventArgs e)
         {
-            getDataFromAPI();
+            // getDataFromAPI();
+
+            GetLatestDataInExcel();
         }
+
+
+
 
 
         private void releaseObject(object obj)
@@ -525,6 +582,302 @@ namespace WebAPI_Windows_Client
             }
         }
         #endregion
+
+
+
+
+        static string ColumnIndexToColumnLetter(int colIndex)
+        {
+            int div = colIndex;
+            string colLetter = String.Empty;
+            int mod = 0;
+
+            while (div > 0)
+            {
+                mod = (div - 1) % 26;
+                colLetter = (char)(65 + mod) + colLetter;
+                div = (int)((div - mod) / 26);
+            }
+            return colLetter;
+        }
+
+
+
+
+
+
+        public void GetLatestDataInExcel()
+        {
+
+            string datetime = DateTime.Now.ToString("yyyy/mm/dd");
+            string xcelFileName = ReplaceHelper.DateTimeStringBuilder(datetime);
+
+
+
+            string fileName = "ff.xlsx";
+            string fileNameNew = xcelFileName + ".xlsx";
+            string sourcePath = @"D:\Japan\chiyoda\WebAPI_Windows_Client\BaseFile";
+
+            string targetPath = @"D:\Japan\chiyoda\WebAPI_Windows_Client\ProducedFile";
+
+
+            string sourceFile = System.IO.Path.Combine(sourcePath, fileName);
+            string destFile = System.IO.Path.Combine(targetPath, fileNameNew);
+
+
+            System.IO.Directory.CreateDirectory(targetPath);
+
+
+            System.IO.File.Copy(sourceFile, destFile, true);
+
+
+            if (System.IO.Directory.Exists(sourcePath))
+            {
+                string[] files = System.IO.Directory.GetFiles(sourcePath);
+
+                // Copy the files and overwrite destination files if they already exist.
+                foreach (string s in files)
+                {
+                    // Use static Path methods to extract only the file name from the path.
+                    fileName = System.IO.Path.GetFileName(s);
+                    destFile = System.IO.Path.Combine(targetPath, fileNameNew);
+                    System.IO.File.Copy(s, destFile, true);
+                }
+            }
+
+            if (System.IO.Directory.Exists(targetPath))
+            {
+                //MemoryStream ms = new MemoryStream();
+                //using (FileStream fs = File.OpenRead(System.IO.Path.Combine(targetPath, fileName)))
+
+
+
+                Microsoft.Office.Interop.Excel.Application xlApp;
+                Microsoft.Office.Interop.Excel.Worksheet xlWorkSheet;
+                object misValue = System.Reflection.Missing.Value;
+
+
+                xlApp = new Microsoft.Office.Interop.Excel.Application();
+                //open the excel
+                Workbook xlWorkbooK = xlApp.Workbooks.Open(System.IO.Path.Combine(targetPath, fileNameNew));
+                //get the first sheet of the excel
+                xlWorkSheet = (Worksheet)xlWorkbooK.Worksheets.get_Item(1);
+
+                try
+                {
+                    Range range = xlWorkSheet.UsedRange;
+                    int rowCount = range.Rows.Count;
+                    int columnCount = range.Columns.Count;
+                    // specify the rows
+                    //for (int k = 1; k <= 20; k++)
+                    //{
+                    //    //specify the columns
+                    //    for (int j = 1; j <= 5; j++)
+                    //    {
+                    //        Range cell = range.Cells[k, j] as Range;
+                    //        if ((string)cell.Value2 == "##DATE##")
+                    //        {
+                    //            cell.Value = DateTime.Now.ToString();
+                    //        }
+                    //    }
+                    //}
+
+
+                    xlWorkSheet.get_Range("a10", "x11").Merge(false);
+                    range = xlWorkSheet.get_Range("a10", "x11");
+                    range.FormulaR1C1 = GetYear + "年" + GetMonth + "月" + GetDay + "日～";
+                    range.Font.Size = 20;
+                    GetAlignmentAndFontSizeForChartRange(range);
+
+
+
+                    WebClient client = new WebClient();
+                    client.Headers["Content-type"] = "application/json";
+                    client.Encoding = Encoding.UTF8;
+                    string json = client.UploadString(apiUrl + "/GetCustomers", "");
+                    List<ExcelDiagramModel> excelDiagramModel = (new JavaScriptSerializer()).Deserialize<List<ExcelDiagramModel>>(json);
+
+                    ExcelDiagramModel excelDiagramModel1 = new ExcelDiagramModel();
+
+
+
+
+                    for (int i = 0; i < 1; i++)
+                    {
+
+                        excelDiagramModel1.STATION_ID = excelDiagramModel[i].STATION_ID;
+                        excelDiagramModel1.STATION_INDEX = excelDiagramModel[i].STATION_INDEX;
+                        excelDiagramModel1.ENTER_SCHEDULE_TIME = Convert.ToDateTime(excelDiagramModel[i].ENTER_SCHEDULE_TIME);
+                        excelDiagramModel1.OUT_SCHEDULE_TIME = Convert.ToDateTime(excelDiagramModel[i].OUT_SCHEDULE_TIME);
+                        excelDiagramModel1.TRANSPORT_ID = excelDiagramModel[i].TRANSPORT_ID;
+                        excelDiagramModel1.COMPANY_NAME = excelDiagramModel[i].COMPANY_NAME;
+                        excelDiagramModel1.BACKGROUND_COLOR = excelDiagramModel[i].BACKGROUND_COLOR;
+                        excelDiagramModel1.FONT_COLOR = excelDiagramModel[i].FONT_COLOR;
+                    }
+
+                    var start = excelDiagramModel1.ENTER_SCHEDULE_TIME;
+                    var end = excelDiagramModel1.OUT_SCHEDULE_TIME;
+
+                    DateTime chekingStartTime = new DateTime(start.Year, start.Month, start.Day, 07, 00, 00);
+                    DateTime chekingNightStartTime = new DateTime(start.Year, start.Month, start.Day, 19, 00, 00);
+                    int startDiff = 0;
+                    string shift = "day";
+                    //if true dayshift
+                    if (start < chekingNightStartTime)
+                    {
+                         startDiff = Convert.ToInt32(start.Subtract(chekingStartTime).TotalMinutes);
+                    }
+
+                    else
+                    {
+                        shift = "night";
+                         startDiff = Convert.ToInt32(start.Subtract(chekingNightStartTime).TotalMinutes);
+                    }
+                    
+                 
+                 
+                    bool isSingleSlot = false;
+                    int singleSlotValue = 0;
+                    int startSlot = 0;
+                    int endSlot = 0;
+                    int startIndex = 7;
+                    if (startDiff > 0)
+                    {
+                        startIndex = (startDiff / 5) + 7;
+                        int scheduleDiff = Convert.ToInt32(end.Subtract(start).TotalMinutes);
+                        if (scheduleDiff > 0)
+                        {
+                            int divDiff = scheduleDiff / 5;
+                            if (divDiff == 1)
+                            {
+                                isSingleSlot = true;
+                                singleSlotValue = startIndex + 1;
+                            }
+                            else
+                            {
+                                startSlot = startIndex + 1;
+                                endSlot = divDiff + startIndex;
+                            }
+
+                        }
+
+                    }
+
+                    else
+                    {
+
+                        int scheduleDiff = Convert.ToInt32(end.Subtract(start).TotalMinutes);
+                        if (scheduleDiff > 0)
+                        {
+                            int divDiff = scheduleDiff / 5;
+                            if (divDiff == 1)
+                            {
+                                isSingleSlot = true;
+                                singleSlotValue = startIndex + 1;
+                            }
+                            else
+                            {
+                                startSlot = startIndex + 1;
+                                endSlot = divDiff + startIndex;
+                            }
+
+                        }
+
+                    }
+
+
+                    xlApp.DisplayAlerts = false;
+
+                    if (isSingleSlot)
+                    {
+                        string getname = ColumnIndexToColumnLetter(singleSlotValue);
+                        Microsoft.Office.Interop.Excel.Range chartRange;
+                        xlWorkSheet.get_Range(getname + GetStationStartNumber(excelDiagramModel1.STATION_ID, shift), getname + GetStationEndNumber(excelDiagramModel1.STATION_ID, shift)).Merge(false);
+                        chartRange = xlWorkSheet.get_Range(getname + GetStationStartNumber(excelDiagramModel1.STATION_ID, shift), getname + GetStationEndNumber(excelDiagramModel1.STATION_ID, shift));
+                        chartRange.FormulaR1C1 = "al amin";
+                        chartRange.Font.Size = 20;
+                        GetAlignmentAndFontSizeForChartRange(chartRange);
+                        chartRange.Interior.Color = Color.Yellow;
+                    }
+                    else
+                    {
+                        string getStartSlot = ColumnIndexToColumnLetter(startSlot);
+                        string getEndSlot = ColumnIndexToColumnLetter(endSlot);
+
+                        Microsoft.Office.Interop.Excel.Range chartRange;
+                        xlWorkSheet.get_Range(getStartSlot + GetStationStartNumber(excelDiagramModel1.STATION_ID, shift), getEndSlot + GetStationEndNumber(excelDiagramModel1.STATION_ID, shift)).Merge(false);
+                        chartRange = xlWorkSheet.get_Range(getStartSlot + GetStationStartNumber(excelDiagramModel1.STATION_ID, shift), getEndSlot + GetStationEndNumber(excelDiagramModel1.STATION_ID, shift));
+                        chartRange.FormulaR1C1 = "al amin";
+                        chartRange.Font.Size = 20;
+                        GetAlignmentAndFontSizeForChartRange(chartRange);
+                        chartRange.Interior.Color = Color.Yellow;
+                    }
+
+
+
+                    //Microsoft.Office.Interop.Excel.Range chartRange;
+                    //xlWorkSheet.get_Range("g15", "ak18").Merge(false);
+                    //chartRange = xlWorkSheet.get_Range("g15", "ak18");
+                    //chartRange.FormulaR1C1 = "al amin";
+                    //chartRange.Font.Size = 20;
+                    //GetAlignmentAndFontSizeForChartRange(chartRange);
+                    //chartRange.Interior.Color = Color.Yellow;
+
+
+
+
+                }
+                catch (Exception hgfjhsd)
+                {
+                    MessageBox.Show(hgfjhsd.ToString());
+
+                }
+                xlWorkbooK.Save();
+                xlWorkbooK.Close();
+
+
+            }
+        }
+
+
+
+        public string GetStationStartNumber(int stationId, string shift) { 
+            //for slot 1
+            if(stationId == 1 && shift=="day")
+            {
+                return "15";
+            }
+
+
+            if (stationId == 1 && shift == "night")
+            {
+                return "54";
+            }
+
+
+
+            //for slot 2
+
+
+            return "0";
+        
+        }
+
+        public string GetStationEndNumber(int stationId, string shift)
+        {
+            if (stationId == 1 && shift == "day")
+            {
+                return "18";
+            }
+
+           else if (stationId == 1 && shift == "night")
+            {
+                return "57";
+            }
+
+            return "0";
+
+        }
 
 
     }
