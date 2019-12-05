@@ -42,9 +42,9 @@ namespace DataGridView_WebAPI.Controllers
     {
 
 
-        [Route("api/CustomerAPI/GetCustomers")]
+        [Route("api/CustomerAPI/GetData")]
         [HttpPost]
-        public List<results> GetCustomers()
+        public List<results> GetData()
         {
             MySqlConnection conn = WebApiConfig.conn();
             MySqlCommand query = conn.CreateCommand();
@@ -55,7 +55,7 @@ namespace DataGridView_WebAPI.Controllers
 
 
 
-            query.CommandText = "SELECT tbl_diagram_details.station_id, LOWER(SUBSTRING(mst_station.station_name, 1, 3)) as station_index,tbl_diagram_details.enter_schedule_time, tbl_diagram_details.out_schedule_time, tbl_diagram.transport_id,  mst_transport.company_name,  mst_transport.background_color as background_color, mst_transport.font_color as font_color, tbl_diagram.switching_date FROM tbl_diagram_details,tbl_diagram,mst_transport,mst_station WHERE tbl_diagram.id = tbl_diagram_details.diagram_id AND tbl_diagram.transport_id = mst_transport.id AND tbl_diagram_details.station_id = mst_station.id ";
+            query.CommandText = "SELECT tbl_diagram_details.station_id, LOWER(SUBSTRING(mst_station.station_name, 1, 3)) as station_index,tbl_diagram_details.enter_schedule_time, tbl_diagram_details.out_schedule_time, tbl_diagram.transport_id,  mst_transport.company_name,  mst_transport.background_color as background_color, mst_transport.font_color as font_color, tbl_diagram.switching_date FROM tbl_diagram_details,tbl_diagram,mst_transport,mst_station WHERE tbl_diagram.id = tbl_diagram_details.diagram_id AND tbl_diagram.transport_id = mst_transport.id AND tbl_diagram_details.station_id = mst_station.id";
 
 
             // query.Parameters.AddWithValue("@staff_name", result.name);
@@ -136,15 +136,17 @@ namespace DataGridView_WebAPI.Controllers
 
 
 
-        [Route("api/CustomerAPI/UpdateProduct")]
+        [Route("api/CustomerAPI/UpdateExcelOutputTable")]
         [HttpPost]
-        public bool UpdateProduct(results result)
+        public bool UpdateExcelOutputTable(string fileNameSave)
         {
             int rst = 0;
             MySqlConnection conn = WebApiConfig.conn();
             MySqlCommand query = conn.CreateCommand();
 
-            //query.CommandText = "UPDATE mst_staff SET staff_name = '" + result.enter_schedule_time + "',  staff_kana = '" + result.enter_schedule_time + "' WHERE id = '" + result.id + "'";
+            string dateOnly = DateTime.Now.ToString("yyyy-MM-dd");
+
+            query.CommandText = "INSERT INTO tbl_excel_output (create_datetime, begin_datetime, complete_datetime, target_date, type, status, fileserver_id, file_name) VALUES ('" + DateTime.Now.ToString() + "','" + DateTime.Now.ToString() + "','" + DateTime.Now.ToString() + "','" + dateOnly + "',1,1,192.168.0.1,'" + fileNameSave + "')";
 
             try
             {
@@ -161,6 +163,36 @@ namespace DataGridView_WebAPI.Controllers
             return true;
 
         }
+
+
+
+
+
+
+
+
+
+        [Route("api/CustomerAPI/UploadExcel")]
+        [HttpPost]
+        public bool UploadExcel(string fileName)
+        {
+
+
+            return true;
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
 
