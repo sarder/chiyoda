@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web.Http;
 using MySql.Data.MySqlClient;
 
-namespace DataGridView_WebAPI
+namespace Chiyoda_WebAPI
 {
     public static class WebApiConfig
     {

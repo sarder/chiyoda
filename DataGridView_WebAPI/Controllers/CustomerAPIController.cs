@@ -1,4 +1,4 @@
-﻿using DataGridView_WebAPI.Models;
+﻿using Chiyoda_WebAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
@@ -6,8 +6,9 @@ using System.Linq;
 using System.Web.Http.Description;
 using MySql.Data.MySqlClient;
 using System.Data;
+using System.Web.Script.Serialization;
 
-namespace DataGridView_WebAPI.Controllers
+namespace Chiyoda_WebAPI.Controllers
 {
 
     public class results
@@ -37,6 +38,11 @@ namespace DataGridView_WebAPI.Controllers
             this.BACKGROUND_COLOR = BackgoundColor;
             this.FONT_COLOR = FontColor;
         }
+    }
+
+    public class excelOutputDataModel {
+        public string fileNameSave { get; set; }
+        public int fileserver_id { get; set; }
     }
     public class CustomerAPIController : ApiController
     {
@@ -83,49 +89,49 @@ namespace DataGridView_WebAPI.Controllers
 
 
 
-        [Route("api/CustomerAPI/GetDataForExecl")]
-        [HttpPost]
-        public DataTable GetDataForExecl()
-        {
+        //[Route("api/CustomerAPI/GetDataForExecl")]
+        //[HttpPost]
+        //public DataTable GetDataForExecl()
+        //{
 
-            var dataTable = new DataTable();
-            //try
-            //{
-            MySqlConnection conn = WebApiConfig.conn();
-            conn.Open();
+        //    var dataTable = new DataTable();
+        //    //try
+        //    //{
+        //    MySqlConnection conn = WebApiConfig.conn();
+        //    conn.Open();
 
-            //    MySqlCommand query = conn.CreateCommand();
-            //    query.CommandText = "update tbl_excel_output set status=2 where status=1 and type =1";
-            //    int isUpdaste = query.ExecuteNonQuery();
+        //    //    MySqlCommand query = conn.CreateCommand();
+        //    //    query.CommandText = "update tbl_excel_output set status=2 where status=1 and type =1";
+        //    //    int isUpdaste = query.ExecuteNonQuery();
 
-            //    if (isUpdaste > 0)
-            //    {
-            //        var dataSet = new DataSet();
-            //        var dataAdapter = new MySqlDataAdapter { SelectCommand = InitSqlCommand("select id,diagram_id,station_id,enter_schedule_time,out_schedule_time from tbl_diagram_details where status=1 and type =1") };
+        //    //    if (isUpdaste > 0)
+        //    //    {
+        //    //        var dataSet = new DataSet();
+        //    //        var dataAdapter = new MySqlDataAdapter { SelectCommand = InitSqlCommand("select id,diagram_id,station_id,enter_schedule_time,out_schedule_time from tbl_diagram_details where status=1 and type =1") };
 
-            //        dataAdapter.Fill(dataSet);
-            //        dataTable = dataSet.Tables[0];
-            //    }
+        //    //        dataAdapter.Fill(dataSet);
+        //    //        dataTable = dataSet.Tables[0];
+        //    //    }
 
-            //    conn.Close();
-            //}
-            //catch (Exception)
-            //{
+        //    //    conn.Close();
+        //    //}
+        //    //catch (Exception)
+        //    //{
 
-            //    throw;
-            //}
+        //    //    throw;
+        //    //}
 
-            var dataSet = new DataSet();
-            var dataAdapter = new MySqlDataAdapter { SelectCommand = InitSqlCommand("select id,diagram_id,station_id,enter_schedule_time,out_schedule_time from tbl_diagram_details") };
+        //    var dataSet = new DataSet();
+        //    var dataAdapter = new MySqlDataAdapter { SelectCommand = InitSqlCommand("select id,diagram_id,station_id,enter_schedule_time,out_schedule_time from tbl_diagram_details") };
 
-            dataAdapter.Fill(dataSet);
-            dataTable = dataSet.Tables[0];
+        //    dataAdapter.Fill(dataSet);
+        //    dataTable = dataSet.Tables[0];
 
-            conn.Close();
+        //    conn.Close();
 
-            return dataTable;
+        //    return dataTable;
 
-        }
+        //}
 
         public MySqlCommand InitSqlCommand(string query)
         {
@@ -136,58 +142,36 @@ namespace DataGridView_WebAPI.Controllers
 
 
 
-        [Route("api/CustomerAPI/UpdateExcelOutputTable")]
+        [Route("api/CustomerAPI/InsertExcelOutputTable/{fileNameSave}")]
         [HttpPost]
-        public bool UpdateExcelOutputTable(string fileNameSave)
+        public string InsertExcelOutputTable(excelOutputDataModel fileNameSave)
         {
+           // excelOutputDataModel data = (new JavaScriptSerializer()).Deserialize< excelOutputDataModel> (fileNameSave);
+            
             int rst = 0;
             MySqlConnection conn = WebApiConfig.conn();
             MySqlCommand query = conn.CreateCommand();
 
             string dateOnly = DateTime.Now.ToString("yyyy-MM-dd");
 
-            query.CommandText = "INSERT INTO tbl_excel_output (create_datetime, begin_datetime, complete_datetime, target_date, type, status, fileserver_id, file_name) VALUES ('" + DateTime.Now.ToString() + "','" + DateTime.Now.ToString() + "','" + DateTime.Now.ToString() + "','" + dateOnly + "',1,1,192.168.0.1,'" + fileNameSave + "')";
+            query.CommandText = "INSERT INTO tbl_excel_output (create_datetime, begin_datetime, complete_datetime, target_date, type, status, fileserver_id, file_name) VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "','" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "','" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "','" + dateOnly + "',1,1,12345678,'" + fileNameSave.fileNameSave + "')";
 
             try
             {
                 conn.Open();
                 rst = query.ExecuteNonQuery();
-                return true;
                 conn.Close();
+                return "true";
+              
             }
             catch (MySql.Data.MySqlClient.MySqlException ex)
             {
 
-                return false;
+                return "false";
             }
-            return true;
+       
 
         }
-
-
-
-
-
-
-
-
-
-        [Route("api/CustomerAPI/UploadExcel")]
-        [HttpPost]
-        public bool UploadExcel(string fileName)
-        {
-
-
-            return true;
-
-        }
-
-
-
-
-
-
-
 
 
 
